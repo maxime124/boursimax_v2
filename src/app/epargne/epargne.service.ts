@@ -13,7 +13,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class EpargneService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new Headers(
+      {'Content-Type': 'application/json'}
+      );
   private accountsUrl = 'http://localhost:3000/accounts';
 
   constructor(private http: Http) { }
