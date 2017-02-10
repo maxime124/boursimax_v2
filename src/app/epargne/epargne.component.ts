@@ -32,13 +32,18 @@ export class EpargneComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit() {
     const selectDom = this.renderer.selectRootElement('#test_chart');
+
+   /* this.accounts.forEach(function(){
+      console.log(this);
+    });*/
+
     var options = {
       title: {
-        text: 'ECharts entry example'
+        text: 'Diag exemple'
       },
       tooltip: {},
       legend: {
-        data:['Sales']
+        data:['€']
       },
       xAxis: {
         data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
@@ -56,7 +61,10 @@ export class EpargneComponent implements OnInit,AfterViewInit {
 
   updateListeAccount() {
     this.epargneService.getAccounts().then(
-        accounts => this.accounts = accounts
+        function() {
+          //this.accounts = value;
+          console.log(parent);
+        }
     );
     this.hiddenForm = true;
   }
