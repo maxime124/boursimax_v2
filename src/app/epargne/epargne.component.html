@@ -30,7 +30,9 @@
       </tr>
       </tbody>
     </table>
+    <div id="test_chart" #test_chart style="width: 500px; height: 350px;"></div>
   </div>
+
   <div class="container col-lg-4" [hidden]="hiddenForm">
     <app-account-form (onAdded)="updateListeAccount($event)"></app-account-form>
   </div>
