@@ -26,4 +26,20 @@ export class EpargneComponent implements OnInit {
     );
   }
 
+  updateListeAccount() {
+    this.epargneService.getAccounts().then(
+        accounts => this.accounts = accounts
+    );
+    this.hiddenForm = true;
+  }
+
+  displayForm() {
+    this.hiddenForm = false;
+  }
+
+  delete(id:string) {
+    this.epargneService.deleteAccount(id).then(
+        deleted => this.updateListeAccount()
+    );
+  }
 }
