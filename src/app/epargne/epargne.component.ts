@@ -13,6 +13,7 @@ import * as echarts from 'echarts';
 
 export class EpargneComponent implements OnInit,AfterViewInit {
   accounts: Account[];
+  chartView: any;
   private hiddenForm: boolean;
 
   constructor(
@@ -25,45 +26,32 @@ export class EpargneComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.epargneService.getAccounts().then(
-        accounts => this.accounts = accounts
+    this.epargneService.getAccounts().subscribe(
+        accounts => {
+          this.majAccountsData(accounts);
+          console.log(accounts);
+        }
     );
   }
 
   ngAfterViewInit() {
     const selectDom = this.renderer.selectRootElement('#test_chart');
+    this.chartView = echarts.init(selectDom);
+  }
 
-   /* this.accounts.forEach(function(){
-      console.log(this);
-    });*/
+  /**
+   * Fonction appelée quand les accounts sont mis à jour
+   */
+  majAccountsData(accounts) {
+    this.accounts = accounts;
 
-    var options = {
-      title: {
-        text: 'Diag exemple'
-      },
-      tooltip: {},
-      legend: {
-        data:['€']
-      },
-      xAxis: {
-        data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-      },
-      yAxis: {},
-      series: [{
-        name: 'Sales',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
-      }]
-    };
-    var chartView = echarts.init(selectDom);
-    chartView.setOption(options);
+    this.chartView.setOption(Account.getGraphOptionsFromAccounts(accounts));
   }
 
   updateListeAccount() {
-    this.epargneService.getAccounts().then(
-        function() {
-          //this.accounts = value;
-          console.log(parent);
+    this.epargneService.getAccounts().subscribe(
+        accounts => {
+          this.majAccountsData(accounts);
         }
     );
     this.hiddenForm = true;
@@ -74,7 +62,7 @@ export class EpargneComponent implements OnInit,AfterViewInit {
   }
 
   delete(id:string) {
-    this.epargneService.deleteAccount(id).then(
+    this.epargneService.deleteAccount(id).subscribe(
         deleted => this.updateListeAccount()
     );
   }

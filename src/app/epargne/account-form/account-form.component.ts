@@ -1,5 +1,5 @@
 import { Component,EventEmitter,Output, OnInit } from '@angular/core';
-import { Account }  from '../../class/account';
+import {Account, AccountValueType}  from '../../class/account';
 import { EpargneService } from '../epargne.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { EpargneService } from '../epargne.service';
 export class AccountFormComponent {
   @Output() onAdded = new EventEmitter<Account>();
 
+  typeValue = AccountValueType.VALUE_TYPE;
   model = new Account('',0);
 
   constructor(
@@ -19,7 +20,7 @@ export class AccountFormComponent {
   }
 
   onSubmit() {
-    this.epargneService.create(Object.assign({}, this.model)).then(
+    this.epargneService.create(Object.assign({}, this.model)).subscribe(
         account => this.onAdded.emit(account)
     );
   }

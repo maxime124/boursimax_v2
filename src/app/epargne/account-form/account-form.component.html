@@ -14,6 +14,7 @@
         Name is required
       </div>
     </div>
+    <br/>
     <div class="form-group">
       <label for="value">Value</label>
       <input type="number" class="form-control" id="value"
@@ -25,6 +26,35 @@
       <div [hidden]="value.valid || value.pristine"
            class="alert alert-danger">
         Value is required
+      </div>
+    </div>
+    <br/>
+    <h3>Composition</h3>
+    <div class="form-group">
+      <div class="row"
+           *ngFor="let composition of model.value.composition;let i = index;" >
+        <div class="col-xs-4">
+          <label for="model.value.composition[{{i}}].type">Type</label>
+          <select class="form-control"
+                  id="model.value.composition[{{i}}].type"
+                  name="model.value.composition[{{i}}].type"
+                  [(ngModel)]="composition.type"
+                  #type="ngModel">
+            <option *ngFor="let type of typeValue;" [value]="type">{{type}}</option>
+          </select>
+        </div>
+        <div class="col-xs-4">
+          <label for="model.value.composition[{{i}}].percentage">Pourcentage</label>
+          <input
+                  type="number"
+                  name="model.value.composition[{{i}}].percentage"
+                  id="model.value.composition[{{i}}].percentage"
+                  class="form-control"
+                  max="100"
+                  min="0"
+                  step="1"
+                  [(ngModel)]="composition.percentage">
+        </div>
       </div>
     </div>
     <button type="submit" class="btn btn-default" [disabled]="!accountForm.form.valid">Add account</button>

@@ -9,6 +9,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class EpargneService {
@@ -20,33 +21,37 @@ export class EpargneService {
 
   constructor(private http: Http) { }
 
-  getAccounts(): Promise<Account[]> {
+  getAccounts(): Observable<Account[]> {
     return this.http.get(this.accountsUrl)
-        .toPromise()
-        .then(response => response.json() as Account[])
+        .map(response => response.json() as Account[])
         .catch(this.handleError);
   }
 
-  create(account: Account): Promise<Account> {
-    console.log(account);
+  create(account: Account): Observable<Account> {
     return this.http.post(this.accountsUrl,account)
-        .toPromise()
-        .then(response => response.json() as Account)
+        .map(response => response.json() as Account)
         .catch(this.handleError);
   }
 
   deleteAccount(id: string) {
     return this.http.delete(this.accountsUrl + '/' + id)
-        .toPromise()
-        .then(response => this.http.get(this.accountsUrl)
-            .toPromise()
-            .then(response => response.json() as boolean)
+        .map(response => this.http.get(this.accountsUrl)
+            .map(response => response.json() as boolean)
             .catch(this.handleError))
         .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  private handleError (error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }
