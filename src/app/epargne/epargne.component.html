@@ -19,7 +19,7 @@
           [class.danger]="account.value.value < 0"
       >
         <td>{{account.name}}</td>
-        <td></td>
+        <td><span *ngFor="let type of account.value.composition;let i = index;">{{type.type}}({{type.percentage}})<br /> </span></td>
         <td>{{account.value.value}}</td>
         <td>{{account.percentage}}</td>
         <td>
