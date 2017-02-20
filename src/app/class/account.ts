@@ -58,10 +58,10 @@ export class Account {
             legend: {
                 data:['€']
             },
-            xAxis: {
+            /*xAxis: {
                 data: xAxis
             },
-            yAxis: {},
+            yAxis: {},*/
             series: [{
                 name: '€',
                 type: 'pie',
