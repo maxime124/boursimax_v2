@@ -31,13 +31,8 @@ export class Account {
             date: "",
             composition: [{
                 type:AccountValueType.VALUE_TYPE[0],
-                percentage:95
-            },
-                {
-                    type:AccountValueType.VALUE_TYPE[1],
-                    percentage:5
-                }
-            ]
+                percentage:100
+            }]
         };
         this.name = name;
     }

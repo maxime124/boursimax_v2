@@ -25,5 +25,16 @@ export class AccountFormComponent {
     );
   }
 
+  addComposition() {
+    this.model.value.composition.push({
+      type:this.typeValue[0],
+      percentage:0
+    });
+  }
+
+  deleteComposition(i) {
+    console.log(i);
+    this.model.value.composition.splice(i,1);
+  }
   get diagnostic() { return JSON.stringify(this.model); }
 }
